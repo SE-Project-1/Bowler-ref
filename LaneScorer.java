@@ -40,10 +40,10 @@ public class LaneScorer {
         System.out.println(2);
 	}
     
-    public LaneEvent lanePublish(int ball,int frameNumber,Bowler currentThrower) {
+    public LaneEvent lanePublish(int ball,int frameNumber,Bowler currentThrower, boolean psChange, boolean[] ps) {
         System.out.println("ball");
 		System.out.println(ball);
-        LaneEvent laneEvent = new LaneEvent(party, bowlIndex, currentThrower, cumulScores, scores, frameNumber+1, curScores, ball, gameIsHalted);
+        LaneEvent laneEvent = new LaneEvent(party, bowlIndex, currentThrower, cumulScores, scores, frameNumber+1, curScores, ball, gameIsHalted, psChange, ps);
 		return laneEvent;
 	}
 
@@ -57,7 +57,7 @@ public class LaneScorer {
 		curScore[ index - 1] = score;
 		scores.put(Cur, curScore);
 		getScore( Cur, frame, ball );
-		publish( lanePublish(thisBall,frameNumber,Cur) );
+		publish( lanePublish(thisBall,frameNumber,Cur, false, new boolean[10]) );
 	}
 
     int count_strikeballs(int[] curScore,int i)

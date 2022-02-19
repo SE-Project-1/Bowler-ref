@@ -256,7 +256,7 @@ public class Lane extends Thread implements PinsetterObserver {
 		laneScorer.party = null;
 		partyAssigned = false;
 
-		laneScorer.publish(laneScorer.lanePublish(ball,frameNumber,currentThrower));
+		laneScorer.publish(laneScorer.lanePublish(ball,frameNumber,currentThrower, false, new boolean[10]));
 
 		generate_score(scoreIt,printVector);
 	}
@@ -351,6 +351,11 @@ public class Lane extends Thread implements PinsetterObserver {
 				}
 			} else {								//  this is not a real throw, probably a reset
 			}
+			boolean[] ps = new boolean[10];
+			for (int i=0; i <= 9; i++) {
+				ps[i] = !pe.pinKnockedDown(i);
+			}
+			laneScorer.publish(laneScorer.lanePublish(ball,frameNumber,currentThrower,true, ps));
 	}
 	
 	/** resetBowlerIterator()
@@ -498,7 +503,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 */
 	public void pauseGame() {
 		laneScorer.gameIsHalted = true;
-		laneScorer.publish(laneScorer.lanePublish(ball,frameNumber,currentThrower));
+		laneScorer.publish(laneScorer.lanePublish(ball,frameNumber,currentThrower, false, new boolean[10]));
 	}
 	
 	/**
@@ -506,7 +511,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 */
 	public void unPauseGame() {
 		laneScorer.gameIsHalted = false;
-		laneScorer.publish(laneScorer.lanePublish(ball,frameNumber,currentThrower));
+		laneScorer.publish(laneScorer.lanePublish(ball,frameNumber,currentThrower, false, new boolean[10]));
 	}
 
 }

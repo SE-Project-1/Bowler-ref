@@ -28,16 +28,30 @@ import java.util.HashMap;
 public class LaneEvent {
 
 	private Party p;
-	private int ball;
-	private Bowler bowler;
-	private int[][] cumulScore;
-	private HashMap score;
-	private int index;
-	private int frameNum;
-	private int[] curScores;
-	private boolean mechProb;
-	
-	public LaneEvent( Party pty, int theIndex, Bowler theBowler, int[][] theCumulScore, HashMap theScore, int theFrameNum, int[] theCurScores, int theBall, boolean mechProblem) {
+	int frame;
+	int ball;
+	Bowler bowler;
+	int[][] cumulScore;
+	HashMap score;
+	int index;
+	int frameNum;
+	int[] curScores;
+	boolean mechProb;
+	boolean pinsetterChange;
+	private boolean[] pinsStillStanding;
+
+	public int totalPinsDown() {
+		int count = 0;
+
+		for (int i=0; i <= 9; i++) {
+			if (!pinsStillStanding[i]) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	public LaneEvent( Party pty, int theIndex, Bowler theBowler, int[][] theCumulScore, HashMap theScore, int theFrameNum, int[] theCurScores, int theBall, boolean mechProblem, boolean psChange, boolean[] ps) {
 		p = pty;
 		index = theIndex;
 		bowler = theBowler;
@@ -45,30 +59,45 @@ public class LaneEvent {
 		score = theScore;
 		curScores = theCurScores;
 		frameNum = theFrameNum;
-		ball = theBall;	
+		ball = theBall;
 		mechProb = mechProblem;
+
+		pinsStillStanding = new boolean[10];
+		pinsetterChange = psChange;
+		for (int i=0; i <= 9; i++) {
+			pinsStillStanding[i] = ps[i];
+		}
 	}
-	
+
 	public boolean isMechanicalProblem() {
 		return mechProb;
 	}
-	
+
 	public int getFrameNum() {
 		return frameNum;
 	}
-	
+
 	public HashMap getScore( ) {
 		return score;
+	}
+
+
+	public int[] getCurScores(){
+		return curScores;
 	}
 
 	public int getIndex() {
 		return index;
 	}
 
+	public int getFrame( ) {
+		return frame;
+	}
+
 	public int getBall( ) {
 		return ball;
 	}
-	
+
 	public int[][] getCumulScore(){
 		return cumulScore;
 	}
@@ -76,7 +105,7 @@ public class LaneEvent {
 	public Party getParty() {
 		return p;
 	}
-	
+
 	public Bowler getBowler() {
 		return bowler;
 	}
